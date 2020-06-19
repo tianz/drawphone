@@ -3,8 +3,8 @@ function Screen() {
 	this.title = "Loading Drawphone...";
 	this.subtitle = "Just a moment!";
 
-	this.defaultTitle = "Drawphone";
-	this.defaultSubtitle = "Telephone with pictures";
+	this.defaultTitle = "传画筒";
+	this.defaultSubtitle = "一个画画接龙游戏";
 }
 
 Screen.prototype.initialize = function() {};

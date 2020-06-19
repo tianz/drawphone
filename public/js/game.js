@@ -168,7 +168,7 @@ Game.prototype.newLink = function(res) {
 		//show the word creator
 		this.showWord();
 	} else if (lastLinkType === WORD) {
-		Screen.prototype.setTitle.call(this, "Please draw: " + lastLink.data);
+		Screen.prototype.setTitle.call(this, "请画出: " + lastLink.data);
 
 		//show drawing creator
 		this.showDrawing();
@@ -177,7 +177,7 @@ Game.prototype.newLink = function(res) {
 		this.resizeCanvas();
 	} else if (lastLinkType === FIRST_WORD) {
 		$("#game-word-drawingtoname").removeAttr("src");
-		Screen.prototype.setTitle.call(this, "What should be drawn?");
+		Screen.prototype.setTitle.call(this, "请选择一个词?");
 
 		this.showWordPicker(lastLink.wordChoices);
 	}

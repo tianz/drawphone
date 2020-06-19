@@ -43,12 +43,8 @@ Results.prototype.show = function(res, isArchivePage) {
 };
 
 Results.prototype.render = function(chainToShow, allChains) {
-	Screen.prototype.setTitle.call(
-		this,
-		chainToShow.owner.name + "'s Drawphone results"
-	);
-	var subtitle =
-		"Now, take turns holding up your phones where everyone can see, and reading off your results to the group.";
+	Screen.prototype.setTitle.call(this, chainToShow.owner.name + "的传画记录");
+	var subtitle = "";
 	Screen.prototype.setSubtitle.call(this, subtitle);
 	this.displayChain(chainToShow);
 	this.displayOtherChainButtons(allChains, chainToShow);
@@ -68,7 +64,7 @@ Results.prototype.displayChain = function(chain) {
 			results.append(
 				"<h3>" +
 					link.player.name +
-					" wanted someone to draw:</h3><h1>" +
+					"想要画一个:</h3><h1>" +
 					link.data +
 					"</h1>"
 			);
@@ -76,7 +72,7 @@ Results.prototype.displayChain = function(chain) {
 			results.append(
 				"<h3>" +
 					link.player.name +
-					' drew:</h3><img class="drawing" src="' +
+					'画了:</h3><img class="drawing" src="' +
 					link.data +
 					'"></img>'
 			);
@@ -84,7 +80,7 @@ Results.prototype.displayChain = function(chain) {
 			results.append(
 				"<h3>" +
 					link.player.name +
-					" thought that was:</h3><h1>" +
+					"觉得这是:</h3><h1>" +
 					link.data +
 					"</h1>"
 			);

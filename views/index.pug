@@ -18,8 +18,8 @@ block content
   div
     span.glyphicon.glyphicon-pencil(aria-hidden='true',style="padding-right:2px;")
     span.glyphicon.glyphicon-earphone(aria-hidden='true',style="padding-left:2px;")
-  h1#title Drawphone
-  p#subtitle Telephone with pictures
+  h1#title 传画筒
+  p#subtitle 一个画画接龙游戏
   hr
   div#mainmenu
     .btn-toolbar
@@ -27,52 +27,52 @@ block content
       button#joinbtn.btn.btn-default.btn-lg(type='button') 加入房间
     br
     .btn-toolbar
-      button#archivebtn.btn.btn-default(type='button') View Previous Results
+      button#archivebtn.btn.btn-default(type='button') 历史记录
     br
-    .btn-toolbar
-      button#howbtn.btn.btn-default(type='button') How to Play
-    br
+    //- .btn-toolbar
+    //-   button#howbtn.btn.btn-default(type='button') How to Play
+    //- br
   div.row
     div.col-sm-6.col-sm-offset-3.col-xs-8.col-xs-offset-2
       div#joinmenu.hidden
-        h4 Join a game
+        h4 加入一个游戏
         form
           .input-container
-            label Game Code:
+            label 房间号:
             .form-group
               input#joinincode.form-control(type='text', placeholder='abcd', autocomplete='off')
-            label Name:
+            label 你的名字:
             .form-group
-              input#joininname.form-control(type='text', placeholder='Use your real name!', maxlength=16)
+              input#joininname.form-control(type='text', placeholder='输入你在游戏中显示的名字', maxlength=16)
           .btn-toolbar
-            button#joinmenu-back.btn.btn-default.btn-lg(type='button') Back
-            button#joinmenu-go.btn.btn-default.btn-lg(type='submit') Join
+            button#joinmenu-back.btn.btn-default.btn-lg(type='button') 后退
+            button#joinmenu-go.btn.btn-default.btn-lg(type='submit') 加入
       div#newmenu.hidden
-        h4 Start a game
+        h4 创建新游戏
         form
           .input-container
-            label Name:
+            label 你的名字:
             .form-group
-              input#newinname.form-control(type='text', placeholder='Use your real name!', maxlength=16)
+              input#newinname.form-control(type='text', placeholder='输入你在游戏中显示的名字', maxlength=16)
           .btn-toolbar
-            button#newmenu-back.btn.btn-default.btn-lg(type='button') Back
-            button#newmenu-go.btn.btn-default.btn-lg(type='submit') Start
+            button#newmenu-back.btn.btn-default.btn-lg(type='button') 后退
+            button#newmenu-go.btn.btn-default.btn-lg(type='submit') 创建
   div#lobby.hidden
     div.row
       div.col-sm-6.col-sm-offset-3.col-xs-8.col-xs-offset-2
-        h4 Players:
+        h4 当前玩家:
         ul#lobby-players.list-unstyled.row
       br
       button#lobby-prevres.btn.btn-default(type='button').hidden View Last Round's Results
       br
       div#lobby-settings.col-sm-6.col-sm-offset-3.col-xs-8.col-xs-offset-2.hidden
-        h4 Game Settings:
-        label Word pack:
+        h4 游戏设置:
+        label 词库:
         select.form-control#lobby-settings-wordpack
           for item in wordpacks
             option #{item}
         br
-        label Time limit:
+        label 时间限制:
         select.form-control#lobby-settings-timelimit
           option No time limit (recommended)
           option 5 seconds
@@ -92,7 +92,6 @@ block content
       h4#game-timer
       canvas#game-drawing-canvas.drawing(width='600', height='600')
     div#word-picker-wrapper.hidden
-      p pick a word
       div#word-picker.btn-group.btn-group-toggle(data-toggle='buttons')
         label.btn.btn-default.btn-lg
           input(type='radio' name='options' id='option1' autocomplete='off')
