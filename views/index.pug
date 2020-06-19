@@ -2,6 +2,16 @@ extends layout
 
 block js
   // Drawphone JS
+  script(src='js/screen.js')
+  script(src='js/mainMenu.js')
+  script(src='js/joinMenu.js')
+  script(src='js/newMenu.js')
+  script(src='js/lobby.js')
+  script(src='js/game.js')
+  script(src='js/results.js')
+  script(src='js/waiting.js')
+  script(src='js/replace.js')
+  script(src='js/userList.js')
   script(src='js/client.js')
 
 block content
@@ -13,14 +23,14 @@ block content
   hr
   div#mainmenu
     .alert.alert-warning(role='warning')
-      | Apologies for Drawphone crashing when lots of people play on Friday and 
-      | Saturday nights! To prevent this in the future, I have upgraded the 
-      | Drawphone server to have 3x more memory. It will cost me a bit more 
+      | Apologies for Drawphone crashing when lots of people play on Friday and
+      | Saturday nights! To prevent this in the future, I have upgraded the
+      | Drawphone server to have 3x more memory. It will cost me a bit more
       | monthly, so send a taco my way if you can! 🌮👀
       br
       br
-      | Just in case, I've also stopped Drawphone from kicking you out of 
-      | your results if the server crashes. It will also automatically save 
+      | Just in case, I've also stopped Drawphone from kicking you out of
+      | your results if the server crashes. It will also automatically save
       | all of you results under the "View Previous Results" button below! 🧐
     .btn-toolbar
       button#joinbtn.btn.btn-default.btn-lg(type='button') Join Game
@@ -60,7 +70,7 @@ block content
             label Name:
             .form-group
               input#newinname.form-control(type='text', placeholder='Use your real name!', maxlength=16)
-          .btn-toolbar 
+          .btn-toolbar
             button#newmenu-back.btn.btn-default.btn-lg(type='button') Back
             button#newmenu-go.btn.btn-default.btn-lg(type='submit') Start
   div#lobby.hidden
@@ -139,14 +149,14 @@ block content
         div#waiting-adminmsg.hidden
           br
           h4 A note to the admin:
-          p If someone has left the game and their box is still white, tap 
-            | their box to put them up for replacement. Anyone will be able to 
+          p If someone has left the game and their box is still white, tap
+            | their box to put them up for replacement. Anyone will be able to
             | rejoin in their place.
         div#waiting-disconnectedmsg.hidden
           br
           h4 Someone left!
-          p It looks like someone has disconnected. They are marked by a grey 
-            | box above. The game will continue when someone joins this game to 
+          p It looks like someone has disconnected. They are marked by a grey
+            | box above. The game will continue when someone joins this game to
             | take their place.
   div#replace.hidden
     div#replace-choices
