@@ -15,7 +15,7 @@ module.exports = function(app) {
 			}
 
 			var theName = stripTags(data.name);
-			if (theName.length > 2 && theName.length <= 16) {
+			if (theName.length >= 1 && theName.length <= 16) {
 				thisGame = dp.newGame();
 				thisUser = thisGame.addPlayer(theName, socket);
 				socket.emit("joinGameRes", {
