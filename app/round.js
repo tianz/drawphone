@@ -24,12 +24,12 @@ function Round(number, players, timeLimit, wordPackName, onResults) {
 	this.canViewLastRoundResults = false;
 	this.isWordFirstGame = true;
 
-	if (this.isWordFirstGame) {
-		this.shouldHaveThisManyLinks = 1;
-	} else {
-		//chains will already have one link
-		this.shouldHaveThisManyLinks = 2;
-	}
+	// if (this.isWordFirstGame) {
+	this.shouldHaveThisManyLinks = 1;
+	// } else {
+	//chains will already have one link
+	// this.shouldHaveThisManyLinks = 2;
+	// }
 
 	this.finalNumOfLinks;
 }
@@ -46,25 +46,27 @@ Round.prototype.start = function() {
 	//  the final number of links each chain should have at the end of this
 	//  round is number of players + 1, because each chain has an extra link
 	//  for the original word
-	if (!this.isWordFirstGame) {
-		this.finalNumOfLinks++;
-	}
+	// if (!this.isWordFirstGame) {
+	// 	this.finalNumOfLinks++;
+	// }
 
 	//contrary to the above comment, i now want every chain to end in a word
 	// so that the Start to End results box always starts and ends works correctly.
 	//to do this, i take away on link if there is an even number of final links
+	// 更改
+	// 玩家偶数时加一轮 自己画
 	if (this.finalNumOfLinks % 2 === 0) {
-		this.finalNumOfLinks--;
+		this.finalNumOfLinks++;
 	}
 
 	//shuffle the player list in place
 	shuffle(this.players);
 
-	if (!this.isWordFirstGame) {
-		this.sendNewChains();
-	} else {
-		this.sendWordFirstChains();
-	}
+	// if (!this.isWordFirstGame) {
+	// 	this.sendNewChains();
+	// } else {
+	this.sendWordFirstChains();
+	// }
 };
 
 Round.prototype.sendWordFirstChains = function() {
@@ -78,7 +80,6 @@ Round.prototype.sendWordFirstChains = function() {
 			choices.push(words.getRandomWord(self.wordPackName));
 		}
 		var thisChain = new Chain(
-			false,
 			player,
 			currentChainId++,
 			self.timeLimit,
@@ -98,6 +99,8 @@ Round.prototype.sendWordFirstChains = function() {
 
 Round.prototype.receiveLink = function(player, receivedLink, chainId) {
 	var chain = this.getChain(chainId);
+	console.log("Received link type:", receivedLink.type);
+	console.log("should have this many links:", this.shouldHaveThisManyLinks);
 
 	if (receivedLink.type === "drawing") {
 		chain.addLink(new DrawingLink(player, receivedLink.data));
@@ -108,10 +111,19 @@ Round.prototype.receiveLink = function(player, receivedLink, chainId) {
 	}
 
 	this.updateWaitingList();
-	this.nextLinkIfEveryoneIsDone();
+
+	let shouldDrawOwn = false;
+	if (
+		receivedLink.type === "word" &&
+		this.shouldHaveThisManyLinks === 1 &&
+		this.players.length % 2 === 0
+	) {
+		shouldDrawOwn = true;
+	}
+	this.nextLinkIfEveryoneIsDone(shouldDrawOwn);
 };
 
-Round.prototype.nextLinkIfEveryoneIsDone = function() {
+Round.prototype.nextLinkIfEveryoneIsDone = function(shouldDrawOwn) {
 	var listNotFinished = this.getListOfNotFinishedPlayers();
 	var allFinished = listNotFinished.length === 0;
 	var noneDisconnected = this.disconnectedPlayers.length === 0;
@@ -121,17 +133,25 @@ Round.prototype.nextLinkIfEveryoneIsDone = function() {
 		if (this.shouldHaveThisManyLinks === this.finalNumOfLinks) {
 			this.viewResults();
 		} else {
-			this.startNextLink();
+			this.startNextLink(shouldDrawOwn);
 		}
 	}
 };
 
-Round.prototype.startNextLink = function() {
+Round.prototype.startNextLink = function(shouldDrawOwn) {
 	this.shouldHaveThisManyLinks++;
 
 	//rotate the chains in place
 	//  this is so that players get a chain they have not already had
-	this.chains.push(this.chains.shift());
+	// 将chain list的第一个移到尾部
+	// 这样每个玩家会分到一个没见过的chain
+
+	// 新增逻辑
+	// 如果玩家为偶数
+	// 那么选完词后 自己画自己选的词
+	if (!shouldDrawOwn) {
+		this.chains.push(this.chains.shift());
+	}
 
 	//distribute the chains to each player
 	//  players and chains will have the same length

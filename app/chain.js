@@ -2,12 +2,11 @@
 // Drawphone Chain
 //
 
-var WordLink = require("./link/wordlink");
 var FirstWordLink = require("./link/firstwordlink");
 
 // A chain is the 'chain' of drawings and words.
 // A link is the individual drawing or word in the chain.
-function Chain(firstWord, owner, id, timeLimit, wordChoices) {
+function Chain(owner, id, timeLimit, wordChoices) {
 	this.owner = owner;
 	this.links = [];
 	this.id = id;
