@@ -1,12 +1,8 @@
 module.exports = function(app) {
 	var dp = app.drawphone;
-	var allPackNames = require("../app/words").getAllPackNames();
-	var safePackNames = require("../app/words").getAllPackNames(true);
+	var wordpacks = require("../app/words").getAllPackNames();
 
 	app.get("/", function(req, res) {
-		const isSafeForWorkURL = req.headers.host.startsWith("dpk");
-		const wordpacks = isSafeForWorkURL ? safePackNames : allPackNames;
-
 		res.render("index", {
 			wordpacks
 		});
@@ -14,14 +10,6 @@ module.exports = function(app) {
 
 	app.get("/how-to-play", function(req, res) {
 		res.render("howtoplay");
-	});
-
-	app.get("/screenshots", function(req, res) {
-		res.render("screenshots");
-	});
-
-	app.get("/more-games", function(req, res) {
-		res.render("moregames");
 	});
 
 	app.get("/archive", function(req, res) {

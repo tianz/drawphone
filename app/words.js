@@ -71,12 +71,10 @@ WordPacks.prototype.getRandomWord = function(packName) {
 	}
 };
 
-WordPacks.getAllPackNames = function(excludeNSFW) {
+WordPacks.getAllPackNames = function() {
 	var names = [];
 	PACK_NAMES.forEach(function(packName) {
-		if (!excludeNSFW || !packName.includes("18+")) {
-			names.push(packName);
-		}
+		names.push(packName);
 	});
 	return names;
 };
