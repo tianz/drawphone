@@ -158,8 +158,6 @@ Game.prototype.sendToAll = function(event, data) {
 Game.prototype.startNewRound = function(timeLimit, wordPackName) {
 	this.inProgress = true;
 
-	console.log("Start new round");
-
 	var self = this;
 	this.currentRound = new Round(
 		this.getNextRoundNum(),

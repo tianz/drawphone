@@ -16,13 +16,7 @@ function Chain(owner, id, timeLimit, wordChoices) {
 
 	this.lastPlayerSentTo = owner.getJson();
 
-	// if (!firstWord) {
-	// console.log("First word 1", firstWord);
 	this.addLink(new FirstWordLink(this.owner, this.wordChoices));
-	// } else {
-	//   console.log("First word 2", firstWord);
-	//   this.addLink(new WordLink(this.owner, firstWord));
-	// }
 }
 
 Chain.prototype.addLink = function(link) {

@@ -102,8 +102,6 @@ Round.prototype.sendWordFirstChains = function() {
 
 Round.prototype.receiveLink = function(player, receivedLink, chainId) {
 	var chain = this.getChain(chainId);
-	console.log("Received link type:", receivedLink.type);
-	console.log("should have this many links:", this.shouldHaveThisManyLinks);
 
 	if (receivedLink.type === "drawing") {
 		chain.addLink(
@@ -111,9 +109,6 @@ Round.prototype.receiveLink = function(player, receivedLink, chainId) {
 		);
 	} else if (receivedLink.type === "word") {
 		chain.addLink(new WordLink(player, stripTags(receivedLink.data)));
-		console.log("here");
-		console.log(this.shouldHaveThisManyLinks);
-		console.log(receivedLink.data);
 		if (this.shouldHaveThisManyLinks === 1) {
 			chain.wordLen = receivedLink.data.length;
 		}

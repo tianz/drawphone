@@ -156,11 +156,8 @@ Game.prototype.newLink = function(res) {
 			: DRAWING;
 	this.timeLimit = res.data.timeLimit;
 
-	console.log("last link type", lastLinkType);
-
 	if (lastLinkType === DRAWING) {
 		//show the previous drawing
-		console.log(lastLink);
 		$("#game-word-drawingtoname").attr("src", lastLink.data);
 
 		Screen.prototype.setTitle.call(
@@ -171,7 +168,6 @@ Game.prototype.newLink = function(res) {
 		//show the word creator
 		this.showWord();
 	} else if (lastLinkType === WORD) {
-		console.log(lastLink);
 		Screen.prototype.setTitle.call(this, "Please draw: " + lastLink.data);
 
 		//show drawing creator
@@ -183,10 +179,6 @@ Game.prototype.newLink = function(res) {
 		$("#game-word-drawingtoname").removeAttr("src");
 		Screen.prototype.setTitle.call(this, "What should be drawn?");
 
-		//show the word creator
-		// this.showWord();
-		console.log("before showing word picker");
-		console.log(lastLink);
 		this.showWordPicker(lastLink.wordChoices);
 	}
 
@@ -204,11 +196,6 @@ Game.prototype.newLink = function(res) {
 };
 
 Game.prototype.checkIfDone = function(newLinkType, lastLink) {
-	console.log($("word-picker"));
-	console.log("in check if done");
-	console.log("New link type", newLinkType);
-	console.log("Last link type", lastLink.type);
-
 	this.done = true;
 
 	//disable the submit timer to prevent duplicate sends
