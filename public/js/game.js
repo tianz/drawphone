@@ -247,7 +247,10 @@ Game.prototype.checkIfDone = function(newLinkType, lastLink) {
 		if (!newLink) {
 			if (lastLink.type === FIRST_WORD) {
 				this.showWordPicker(lastLink.wordChoices);
-				console.log("have not picked a word");
+				swal({
+					title: "请选择你想画的词",
+					icon: "error"
+				});
 			} else {
 				this.showWord();
 				swal(
