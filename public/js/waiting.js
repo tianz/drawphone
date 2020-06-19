@@ -45,10 +45,8 @@ Waiting.prototype.updateWaitingList = function(res) {
 						tappedPlayer.name + " was kicked.",
 						"success"
 					);
-					ga("send", "event", "User list", "Admin kick player");
 				}
 			);
-			ga("send", "event", "User list", "Admin tap player");
 		}
 	});
 };

@@ -41,13 +41,6 @@ Game.prototype.initialize = function() {
 				self.canvas.isBlank = false;
 				//submit
 				self.onDone();
-				ga(
-					"send",
-					"event",
-					"Drawing",
-					"timer forced submit",
-					self.timeLimit
-				);
 			}, self.timeLimit * 1000);
 		}
 		self.canvas.isBlank = false;
@@ -245,7 +238,6 @@ Game.prototype.sendLink = function(type, data) {
 			data: data
 		}
 	});
-	ga("send", "event", "Link", "submit", type);
 	this.onWait();
 };
 

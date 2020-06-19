@@ -25,7 +25,6 @@ Lobby.prototype.initialize = function() {
 
 	var self = this;
 	this.leaveButton.click(function() {
-		ga("send", "event", "Lobby", "leave");
 		//refresh the page
 		location.reload();
 	});
@@ -52,7 +51,6 @@ Lobby.prototype.initialize = function() {
 				"Make sure have selected a word pack, a drawing time limit, and that you have at least four players.",
 				"error"
 			);
-			ga("send", "event", "Lobby", "disallowed start attempt");
 		}
 	});
 	this.wordFirstCheckbox.on("change", function() {
@@ -92,31 +90,21 @@ Lobby.prototype.initialize = function() {
 	this.wordPackDropdown.on("change", function() {
 		self.wordPack = self.wordPackDropdown[0].value;
 		self.checkIfReadyToStart();
-
-		ga("send", "event", "Lobby", "word pack change", self.wordPack);
 	});
 	this.viewPreviousResultsButton.click(function() {
 		socket.emit("viewPreviousResults", {});
-
-		ga("send", "event", "Lobby", "view previous results");
 	});
 
 	this.wordFirstCheckbox.prop("checked", false);
 	this.timeLimitDropdown.prop("selectedIndex", 0);
 	this.wordPackDropdown.prop("selectedIndex", 0);
 	this.wordPackDropdown.prop("disabled", false);
-
-	ga("send", "event", "Lobby", "created");
 };
 
 Lobby.prototype.show = function(data) {
 	socket.off("disconnect");
 	socket.on("disconnect", function() {
 		swal("Connection lost!", "Reloading...", "error");
-		ga("send", "exception", {
-			exDescription: "Socket connection lost",
-			exFatal: false
-		});
 		//refresh the page
 		location.reload();
 	});
@@ -136,11 +124,6 @@ Lobby.prototype.show = function(data) {
 				}
 			});
 		} else {
-			ga("send", "exception", {
-				exDescription: data.error,
-				exFatal: false
-			});
-
 			if (data.content) {
 				swal({
 					title: data.error,
@@ -199,10 +182,6 @@ Lobby.prototype.update = function(res) {
 			this.viewPreviousResultsButton.addClass(HIDDEN);
 		}
 	} else {
-		ga("send", "exception", {
-			exDescription: res.error,
-			exFatal: false
-		});
 		swal("Error updating lobby", res.error, "error");
 	}
 };
@@ -229,14 +208,4 @@ Lobby.prototype.start = function() {
 		timeLimit: this.selectedTimeLimit,
 		wordPackName: this.wordPack
 	});
-	ga("send", "event", "Game", "start");
-	ga("send", "event", "Game", "time limit", this.selectedTimeLimit);
-	ga("send", "event", "Game", "word pack", this.wordPack);
-	ga(
-		"send",
-		"event",
-		"Game",
-		"number of players",
-		this.userList.numberOfPlayers
-	);
 };

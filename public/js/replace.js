@@ -40,5 +40,4 @@ Replace.prototype.sendChoice = function(playerToReplace) {
 	socket.emit("tryReplacePlayer", {
 		playerToReplace: playerToReplace
 	});
-	ga("send", "event", "Player replacement", "replace", self.timeLimit);
 };

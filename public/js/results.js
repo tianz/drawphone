@@ -135,8 +135,6 @@ Results.prototype.displayOtherChainButtons = function(
 
 					//jump to top of the page
 					window.scrollTo(0, 0);
-
-					ga("send", "event", "Results", "display another chain");
 				});
 			})(chain, chainsToList);
 			others.append(button);
