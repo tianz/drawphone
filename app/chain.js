@@ -12,6 +12,7 @@ function Chain(owner, id, timeLimit, wordChoices) {
 	this.id = id;
 	this.timeLimit = timeLimit;
 	this.wordChoices = wordChoices;
+	this.wordLen = 0;
 
 	this.lastPlayerSentTo = owner.getJson();
 

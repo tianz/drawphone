@@ -116,8 +116,6 @@ Game.prototype.showWord = function() {
 Game.prototype.showWordPicker = function(wordChoices) {
 	$("#word-picker label.active").removeClass("active");
 	for (let i = 0; i < 4; i++) {
-		console.log($(`#word-picker input:nth-child(${i + 1})`));
-
 		// set text and value of radio button
 		$(`#word-picker label:nth-child(${i + 1}) span`).text(wordChoices[i]);
 		$(`#word-picker label:nth-child(${i + 1}) input`).val(wordChoices[i]);
@@ -165,7 +163,10 @@ Game.prototype.newLink = function(res) {
 		console.log(lastLink);
 		$("#game-word-drawingtoname").attr("src", lastLink.data);
 
-		Screen.prototype.setTitle.call(this, "What is this a drawing of?");
+		Screen.prototype.setTitle.call(
+			this,
+			`猜猜这是什么？${lastLink.wordLen}个字`
+		);
 
 		//show the word creator
 		this.showWord();

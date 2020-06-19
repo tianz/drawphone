@@ -106,9 +106,17 @@ Round.prototype.receiveLink = function(player, receivedLink, chainId) {
 	console.log("should have this many links:", this.shouldHaveThisManyLinks);
 
 	if (receivedLink.type === "drawing") {
-		chain.addLink(new DrawingLink(player, receivedLink.data));
+		chain.addLink(
+			new DrawingLink(player, receivedLink.data, chain.wordLen)
+		);
 	} else if (receivedLink.type === "word") {
 		chain.addLink(new WordLink(player, stripTags(receivedLink.data)));
+		console.log("here");
+		console.log(this.shouldHaveThisManyLinks);
+		console.log(receivedLink.data);
+		if (this.shouldHaveThisManyLinks === 1) {
+			chain.wordLen = receivedLink.data.length;
+		}
 	} else {
 		console.log("receivedLink.type is " + receivedLink.type);
 	}
