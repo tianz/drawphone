@@ -144,8 +144,8 @@ Lobby.prototype.show = function(data) {
 Lobby.prototype.update = function(res) {
 	if (res.success) {
 		Screen.gameCode = res.gameCode;
-		this.title = "Game Code: " + Screen.getGameCodeHTML();
-		this.subtitle = "Waiting for players...";
+		this.title = "房间号: " + Screen.getGameCodeHTML();
+		this.subtitle = "等待玩家加入...";
 		this.userList.update(res.data.players);
 		this.checkIfReadyToStart();
 

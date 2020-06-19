@@ -91,11 +91,9 @@ Results.prototype.displayChain = function(chain) {
 	wentFromBox += '<br><div class="well">';
 	var firstIndex = chain.links[0].type === FIRST_WORD ? 1 : 0;
 	wentFromBox +=
-		"<h4>You started with:</h4><h2>" +
-		chain.links[firstIndex].data +
-		"</h2><br>";
+		"<h4>最开始的:</h4><h2>" + chain.links[firstIndex].data + "</h2><br>";
 	wentFromBox +=
-		"<h4>and ended up with:</h4><h2>" +
+		"<h4>最后变成了:</h4><h2>" +
 		chain.links[chain.links.length - 1].data +
 		"</h2>";
 	wentFromBox += "</div>";
