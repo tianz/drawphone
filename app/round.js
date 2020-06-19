@@ -100,7 +100,8 @@ Round.prototype.sendWordFirstChains = function() {
 			false,
 			player,
 			currentChainId++,
-			self.timeLimit
+			self.timeLimit,
+			["苹果", "香蕉", "梨子", "桃"]
 		);
 		self.chains.push(thisChain);
 

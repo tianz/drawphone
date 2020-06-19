@@ -113,6 +113,20 @@ Game.prototype.showWord = function() {
 	this.show();
 };
 
+Game.prototype.showWordPicker = function(wordChoices) {
+	$("#word-picker label.active").removeClass("active");
+	for (let i = 0; i < 4; i++) {
+		console.log($(`#word-picker input:nth-child(${i + 1})`));
+
+		// set text and value of radio button
+		$(`#word-picker label:nth-child(${i + 1}) span`).text(wordChoices[i]);
+		$(`#word-picker label:nth-child(${i + 1}) input`).val(wordChoices[i]);
+	}
+	showElement("#word-picker-wrapper");
+	this.showButtons(false);
+	this.show();
+};
+
 Game.prototype.showButtons = function(showClearButton) {
 	if (showClearButton) {
 		showElement("#game-drawing-redo");
@@ -130,6 +144,7 @@ Game.prototype.hideBoth = function() {
 	$("#game-drawing").addClass(HIDDEN);
 	$("#game-word").addClass(HIDDEN);
 	$("#game-buttons").addClass(HIDDEN);
+	$("#word-picker-wrapper").addClass(HIDDEN);
 };
 
 Game.prototype.newLink = function(res) {
@@ -143,8 +158,11 @@ Game.prototype.newLink = function(res) {
 			: DRAWING;
 	this.timeLimit = res.data.timeLimit;
 
+	console.log("last link type", lastLinkType);
+
 	if (lastLinkType === DRAWING) {
 		//show the previous drawing
+		console.log(lastLink);
 		$("#game-word-drawingtoname").attr("src", lastLink.data);
 
 		Screen.prototype.setTitle.call(this, "What is this a drawing of?");
@@ -152,6 +170,7 @@ Game.prototype.newLink = function(res) {
 		//show the word creator
 		this.showWord();
 	} else if (lastLinkType === WORD) {
+		console.log(lastLink);
 		Screen.prototype.setTitle.call(this, "Please draw: " + lastLink.data);
 
 		//show drawing creator
@@ -164,7 +183,10 @@ Game.prototype.newLink = function(res) {
 		Screen.prototype.setTitle.call(this, "What should be drawn?");
 
 		//show the word creator
-		this.showWord();
+		// this.showWord();
+		console.log("before showing word picker");
+		console.log(lastLink);
+		this.showWordPicker(lastLink.wordChoices);
 	}
 
 	Screen.prototype.setSubtitle.call(
@@ -175,12 +197,17 @@ Game.prototype.newLink = function(res) {
 	//this will be ran when the done button is clicked, or
 	//  the enter key is pressed in the word input
 	this.onDone = function() {
-		this.checkIfDone(newLinkType);
+		this.checkIfDone(newLinkType, lastLink);
 	};
 	Screen.waitingForResponse = false;
 };
 
-Game.prototype.checkIfDone = function(newLinkType) {
+Game.prototype.checkIfDone = function(newLinkType, lastLink) {
+	console.log($("word-picker"));
+	console.log("in check if done");
+	console.log("New link type", newLinkType);
+	console.log("Last link type", lastLink.type);
+
 	this.done = true;
 
 	//disable the submit timer to prevent duplicate sends
@@ -213,14 +240,22 @@ Game.prototype.checkIfDone = function(newLinkType) {
 		newLink = $("#game-word-in")
 			.val()
 			.trim();
+		if (lastLink.type === FIRST_WORD) {
+			newLink = $("#word-picker label.active input").val();
+		}
 		//check if it is blank
-		if (newLink === "") {
-			this.showWord();
-			swal(
-				"Your guess is blank!",
-				"Please enter a guess, then try again.",
-				"info"
-			);
+		if (!newLink) {
+			if (lastLink.type === FIRST_WORD) {
+				this.showWordPicker(lastLink.wordChoices);
+				console.log("have not picked a word");
+			} else {
+				this.showWord();
+				swal(
+					"Your guess is blank!",
+					"Please enter a guess, then try again.",
+					"info"
+				);
+			}
 		} else {
 			//clear the input
 			$("#game-word-in").val("");

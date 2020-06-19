@@ -122,6 +122,21 @@ block content
     div#game-drawing.hidden
       h4#game-timer
       canvas#game-drawing-canvas.drawing(width='600', height='600')
+    div#word-picker-wrapper.hidden
+      p pick a word
+      div#word-picker.btn-group.btn-group-toggle(data-toggle='buttons')
+        label.btn.btn-primary
+          input(type='radio' name='options' id='option1' autocomplete='off')
+          span
+        label.btn.btn-primary
+          input(type='radio' name='options' id='option2' autocomplete='off')
+          span
+        label.btn.btn-primary
+          input(type='radio' name='options' id='option3' autocomplete='off')
+          span
+        label.btn.btn-primary
+          input(type='radio' name='options' id='option4' autocomplete='off')
+          span
     div#game-word.hidden
       img#game-word-drawingtoname.drawing
       br

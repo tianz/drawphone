@@ -199,10 +199,14 @@ Lobby.prototype.checkIfReadyToStart = function() {
 
 Lobby.prototype.start = function() {
 	Screen.waitingForResponse = true;
+	let wordPack = null;
+	if (!this.wordFirstCheckbox.is(":checked")) {
+		wordPack = $(
+			`${this.wordPackDropdown.selector} option:selected`
+		).text();
+	}
 	socket.emit("tryStartGame", {
 		timeLimit: this.selectedTimeLimit,
-		wordPackName: $(
-			`${this.wordPackDropdown.selector} option:selected`
-		).text()
+		wordPackName: wordPack
 	});
 };
