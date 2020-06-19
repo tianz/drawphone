@@ -5,6 +5,7 @@
 var fs = require("fs");
 
 const PACK_NAMES = [
+	"default",
 	"Pictionary (recommended)",
 	"Telestrations",
 	"Cards Against Humanity (18+)",

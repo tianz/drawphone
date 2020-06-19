@@ -185,8 +185,6 @@ Lobby.prototype.update = function(res) {
 Lobby.prototype.checkIfReadyToStart = function() {
 	if (
 		this.selectedTimeLimit !== false &&
-		(this.wordPackDropdown.prop("selectedIndex") != 0 ||
-			this.wordFirstCheckbox.is(":checked")) &&
 		(this.userList.numberOfPlayers >= 4 ||
 			this.userList.numberOfPlayers === 1)
 	) {
