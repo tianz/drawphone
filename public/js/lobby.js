@@ -15,7 +15,6 @@ function Lobby() {
 
 	//this is what the admin selects from the dropdowns
 	this.selectedTimeLimit = false;
-	this.wordPack = false;
 
 	this.userList = new UserList($("#lobby-players"));
 }
@@ -55,7 +54,6 @@ Lobby.prototype.initialize = function() {
 	});
 	this.wordFirstCheckbox.on("change", function() {
 		if (self.wordFirstCheckbox.is(":checked")) {
-			self.wordPack = false;
 			self.wordPackDropdown.prop("selectedIndex", 0);
 			self.wordPackDropdown.prop("disabled", true);
 		} else {
@@ -88,7 +86,6 @@ Lobby.prototype.initialize = function() {
 		self.checkIfReadyToStart();
 	});
 	this.wordPackDropdown.on("change", function() {
-		self.wordPack = self.wordPackDropdown[0].value;
 		self.checkIfReadyToStart();
 	});
 	this.viewPreviousResultsButton.click(function() {
@@ -146,7 +143,6 @@ Lobby.prototype.show = function(data) {
 		this.timeLimitDropdown.prop("selectedIndex", 0);
 
 		//reset the word pack selector
-		this.wordPack = false;
 		this.wordPackDropdown.prop("selectedIndex", 0);
 		this.wordPackDropdown.prop("disabled", false);
 
@@ -189,7 +185,8 @@ Lobby.prototype.update = function(res) {
 Lobby.prototype.checkIfReadyToStart = function() {
 	if (
 		this.selectedTimeLimit !== false &&
-		(this.wordPack !== false || this.wordFirstCheckbox.is(":checked")) &&
+		(this.wordPackDropdown.prop("selectedIndex") != 0 ||
+			this.wordFirstCheckbox.is(":checked")) &&
 		(this.userList.numberOfPlayers >= 4 ||
 			this.userList.numberOfPlayers === 1)
 	) {
@@ -206,6 +203,8 @@ Lobby.prototype.start = function() {
 	Screen.waitingForResponse = true;
 	socket.emit("tryStartGame", {
 		timeLimit: this.selectedTimeLimit,
-		wordPackName: this.wordPack
+		wordPackName: $(
+			`${this.wordPackDropdown.selector} option:selected`
+		).text()
 	});
 };
