@@ -22,7 +22,7 @@ function Round(number, players, timeLimit, wordPackName, onResults) {
 	this.chains = [];
 	this.disconnectedPlayers = [];
 	this.canViewLastRoundResults = false;
-	this.isWordFirstGame = !this.wordPackName;
+	this.isWordFirstGame = true;
 
 	if (this.isWordFirstGame) {
 		this.shouldHaveThisManyLinks = 1;
@@ -67,41 +67,22 @@ Round.prototype.start = function() {
 	}
 };
 
-Round.prototype.sendNewChains = function() {
-	var currentChainId = 0;
-	var self = this;
-	this.players.forEach(function(player) {
-		//give each player a chain of their own
-		var wordToDraw = words.getRandomWord(self.wordPackName);
-		var thisChain = new Chain(
-			wordToDraw,
-			player,
-			currentChainId++,
-			self.timeLimit
-		);
-		self.chains.push(thisChain);
-
-		//sends the link, then runs the function when the player sends it back
-		//  when the 'finishedLink' event is received
-		thisChain.sendLastLinkToThen(player, self.finalNumOfLinks, function(
-			data
-		) {
-			self.receiveLink(player, data.link, thisChain.id);
-		});
-	});
-};
-
 Round.prototype.sendWordFirstChains = function() {
 	var currentChainId = 0;
 	var self = this;
 	this.players.forEach(function(player) {
 		//give each player a chain of their own
+		console.log("Getting random word from", self.wordPackName);
+		const choices = [];
+		for (let i = 0; i < 4; i++) {
+			choices.push(words.getRandomWord(self.wordPackName));
+		}
 		var thisChain = new Chain(
 			false,
 			player,
 			currentChainId++,
 			self.timeLimit,
-			["苹果", "香蕉", "梨子", "桃"]
+			choices
 		);
 		self.chains.push(thisChain);
 
