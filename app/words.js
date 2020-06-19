@@ -4,6 +4,8 @@
 
 var fs = require("fs");
 
+const shuffle = require("knuth-shuffle").knuthShuffle;
+
 const PACK_NAMES = [
 	"default",
 	"Pictionary (recommended)",
@@ -71,6 +73,13 @@ WordPacks.prototype.getRandomWord = function(packName) {
 	}
 };
 
+WordPacks.prototype.getRandomWordList = function(packName, count) {
+	let pack = this.get(packName);
+	if (pack) {
+		return pack.getRandomWordList(count);
+	}
+};
+
 WordPacks.getAllPackNames = function() {
 	var names = [];
 	PACK_NAMES.forEach(function(packName) {
@@ -86,6 +95,11 @@ function WordPack(name, words) {
 
 WordPack.prototype.getRandomWord = function() {
 	return this.words[Math.floor(Math.random() * this.words.length)];
+};
+
+WordPack.prototype.getRandomWordList = function(count) {
+	shuffle(this.words);
+	return this.words.slice(0, count);
 };
 
 module.exports = WordPacks;

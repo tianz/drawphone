@@ -72,19 +72,22 @@ Round.prototype.start = function() {
 Round.prototype.sendWordFirstChains = function() {
 	var currentChainId = 0;
 	var self = this;
+
+	let wordCounter = 0;
+	let randomWordList = words.getRandomWordList(
+		this.wordPackName,
+		this.players.length * 4
+	);
+
 	this.players.forEach(function(player) {
 		//give each player a chain of their own
-		console.log("Getting random word from", self.wordPackName);
-		const choices = [];
-		for (let i = 0; i < 4; i++) {
-			choices.push(words.getRandomWord(self.wordPackName));
-		}
 		var thisChain = new Chain(
 			player,
 			currentChainId++,
 			self.timeLimit,
-			choices
+			randomWordList.slice(wordCounter, wordCounter + 4)
 		);
+		wordCounter += 4;
 		self.chains.push(thisChain);
 
 		//sends the link, then runs the function when the player sends it back
