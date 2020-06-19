@@ -7,7 +7,6 @@ function Lobby() {
 	this.leaveButton = $("#lobby-leave");
 	this.startButton = $("#lobby-start");
 	this.gameSettings = $("#lobby-settings");
-	this.wordFirstCheckbox = $("#lobby-settings-wordfirst");
 	this.timeLimitDropdown = $("#lobby-settings-timelimit");
 	this.wordPackDropdown = $("#lobby-settings-wordpack");
 	this.viewPreviousResultsButton = $("#lobby-prevres");
@@ -52,15 +51,7 @@ Lobby.prototype.initialize = function() {
 			);
 		}
 	});
-	this.wordFirstCheckbox.on("change", function() {
-		if (self.wordFirstCheckbox.is(":checked")) {
-			self.wordPackDropdown.prop("selectedIndex", 0);
-			self.wordPackDropdown.prop("disabled", true);
-		} else {
-			self.wordPackDropdown.prop("disabled", false);
-		}
-		self.checkIfReadyToStart();
-	});
+
 	this.timeLimitDropdown.on("change", function() {
 		switch (self.timeLimitDropdown[0].value) {
 			case "No time limit (recommended)":
@@ -92,7 +83,6 @@ Lobby.prototype.initialize = function() {
 		socket.emit("viewPreviousResults", {});
 	});
 
-	this.wordFirstCheckbox.prop("checked", false);
 	this.timeLimitDropdown.prop("selectedIndex", 0);
 	this.wordPackDropdown.prop("selectedIndex", 0);
 	this.wordPackDropdown.prop("disabled", false);
@@ -135,9 +125,6 @@ Lobby.prototype.show = function(data) {
 			return;
 		}
 	} else {
-		//reset the word first wordFirstCheckbox
-		this.wordFirstCheckbox.prop("checked", false);
-
 		//reset the time limit selector
 		this.selectedTimeLimit = 0;
 		this.timeLimitDropdown.prop("selectedIndex", 0);
@@ -198,12 +185,9 @@ Lobby.prototype.checkIfReadyToStart = function() {
 
 Lobby.prototype.start = function() {
 	Screen.waitingForResponse = true;
-	let wordPack = null;
-	if (!this.wordFirstCheckbox.is(":checked")) {
-		wordPack = $(
-			`${this.wordPackDropdown.selector} option:selected`
-		).text();
-	}
+	let wordPack = $(
+		`${this.wordPackDropdown.selector} option:selected`
+	).text();
 	socket.emit("tryStartGame", {
 		timeLimit: this.selectedTimeLimit,
 		wordPackName: wordPack
