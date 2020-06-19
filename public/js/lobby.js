@@ -14,7 +14,7 @@ function Lobby() {
 	this.gameCode = "";
 
 	//this is what the admin selects from the dropdowns
-	this.selectedTimeLimit = false;
+	this.selectedTimeLimit = 0;
 
 	this.userList = new UserList($("#lobby-players"));
 }
@@ -110,7 +110,7 @@ Lobby.prototype.show = function(data) {
 	if (data) {
 		if (data.success) {
 			Screen.gameCode = data.game.code;
-			this.selectedTimeLimit = false;
+			this.selectedTimeLimit = 0;
 			this.update({
 				success: true,
 				gameCode: data.game.code,
@@ -139,7 +139,7 @@ Lobby.prototype.show = function(data) {
 		this.wordFirstCheckbox.prop("checked", false);
 
 		//reset the time limit selector
-		this.selectedTimeLimit = false;
+		this.selectedTimeLimit = 0;
 		this.timeLimitDropdown.prop("selectedIndex", 0);
 
 		//reset the word pack selector
@@ -184,9 +184,8 @@ Lobby.prototype.update = function(res) {
 
 Lobby.prototype.checkIfReadyToStart = function() {
 	if (
-		this.selectedTimeLimit !== false &&
-		(this.userList.numberOfPlayers >= 4 ||
-			this.userList.numberOfPlayers === 1)
+		this.userList.numberOfPlayers >= 4 ||
+		this.userList.numberOfPlayers === 1
 	) {
 		//un-grey-out start button
 		this.startButton.removeClass("disabled");
