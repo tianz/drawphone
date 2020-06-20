@@ -6,15 +6,7 @@ var fs = require("fs");
 
 const shuffle = require("knuth-shuffle").knuthShuffle;
 
-const PACK_NAMES = [
-	"default",
-	"Pictionary (recommended)",
-	"Telestrations",
-	"Cards Against Humanity (18+)",
-	"Animals",
-	"Adjectives",
-	"Verbs"
-];
+const PACK_NAMES = ["default"];
 
 function WordPacks() {
 	this.wordPacks = [];
