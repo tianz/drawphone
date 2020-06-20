@@ -60,3 +60,5 @@ typings/
 # Credentials
 .travis/*.key
 .travis/*.key.pub
+
+public/js/thirdparty

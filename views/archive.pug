@@ -13,6 +13,8 @@ block js
   script(src='js/replace.js')
   script(src='js/userList.js')
   script(src='js/client.js')
+  script(src='js/thirdparty/dom-to-image.min.js')
+  script(src='js/thirdparty/FileSaver.min.js')
 
 block content
   div
@@ -35,5 +37,6 @@ block content
       br
       .btn-toolbar#result-buttons
         button#result-done.btn.btn-default.btn-lg(type='button') Done
+        button#result-save.btn.btn-default.btn-lg(type='button') 保存为图片
   br
   a.btn.btn-default.btn-lg(type='button', href="/") Exit Archive

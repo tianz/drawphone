@@ -13,6 +13,36 @@ Results.prototype.initialize = function() {
 	$("#result-done").on("click", function() {
 		self.onDoneViewingResults();
 	});
+	$("#result-save").on("click", function() {
+		console.log("Saving...");
+		function filter(node) {
+			return node.id != "result-buttons" && node.type != "button";
+		}
+		let node = document.querySelector(".main-content");
+		domtoimage
+			.toBlob(node, {
+				bgcolor: "white",
+				quality: 1,
+				filter: filter
+			})
+			.then(function(blob) {
+				// let link = document.createElement('a');
+				// link.download = 'drawphone.jpeg';
+				// link.href = dataUrl;
+				// link.click();
+				window.saveAs(blob, "drawphone.png");
+			});
+		// html2canvas(document.querySelector('.main-content'), {
+		// 	// scrollX: 0,
+		// 	// scrollY: 0
+		// 	scale: 32
+		// }).then(canvas => {
+		// 	let a = document.createElement('a');
+		// 	a.href = canvas.toDataURL('image/png');
+		// 	a.download = 'drawphone.png';
+		// 	a.click();
+		// });
+	});
 };
 
 Results.prototype.show = function(res, isArchivePage) {
