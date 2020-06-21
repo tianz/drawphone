@@ -61,4 +61,4 @@ typings/
 .travis/*.key
 .travis/*.key.pub
 
-public/js/thirdparty
+public/dist
