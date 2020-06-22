@@ -6,8 +6,10 @@
 /* global $, swal, fabric, io, ga */
 
 import $ from "jquery";
-require("bootstrap");
+import "bootstrap";
+import "sweetalert";
 import openSocket from "socket.io-client";
+import Dexie from "dexie";
 
 import MainMenu from "./mainMenu";
 import JoinMenu from "./joinMenu";
@@ -17,6 +19,9 @@ import Results from "./results";
 import Replace from "./replace";
 import Waiting from "./waiting";
 import Lobby from "./lobby";
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "sweetalert/dist/sweetalert.css";
 
 //prevent page from refreshing when Join game buttons are pressed
 $(function() {

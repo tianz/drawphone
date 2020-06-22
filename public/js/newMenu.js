@@ -23,7 +23,6 @@ NewMenu.prototype.initialize = function() {
     if (!Screen.waitingForResponse) {
       Screen.waitingForResponse = true;
       var name = $("#newinname").val();
-      console.log(this);
       self.socket.open();
       self.socket.emit("newGame", {
         name: name

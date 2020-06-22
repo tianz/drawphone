@@ -1,3 +1,5 @@
+import Dexie from "dexie";
+
 import Screen from "./screen";
 import * as constants from "./constants";
 
