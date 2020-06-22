@@ -145,6 +145,7 @@ async function renderArchive() {
   }
 
   var resultsList = (await utils.getResultsListFromStorage()).reverse();
+  // console.log(resultsList)
 
   if (resultsList.length === 0) {
     archiveContent.text("No results found on this device. Play a game first!");
@@ -215,7 +216,7 @@ function getQuickInfoStringOfResults(results) {
   result += ": ";
 
   var firstChainLinks = results.chains[0].links;
-  result += firstChainLinks[0].data;
+  result += firstChainLinks[1].data;
   result += " to ";
   result += firstChainLinks[firstChainLinks.length - 1].data;
 
@@ -223,7 +224,7 @@ function getQuickInfoStringOfResults(results) {
 
   result += ", ";
   var secondChainLinks = results.chains[1].links;
-  result += secondChainLinks[0].data;
+  result += secondChainLinks[1].data;
   result += " to ";
   result += secondChainLinks[secondChainLinks.length - 1].data;
   result += ", etc.";
