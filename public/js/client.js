@@ -9,7 +9,6 @@ import $ from "jquery";
 import "bootstrap";
 import "sweetalert";
 import openSocket from "socket.io-client";
-import Dexie from "dexie";
 
 import MainMenu from "./mainMenu";
 import JoinMenu from "./joinMenu";
@@ -19,6 +18,7 @@ import Results from "./results";
 import Replace from "./replace";
 import Waiting from "./waiting";
 import Lobby from "./lobby";
+import * as utils from "./utils";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "sweetalert/dist/sweetalert.css";
@@ -144,7 +144,7 @@ async function renderArchive() {
     return;
   }
 
-  var resultsList = (await getResultsListFromStorage()).reverse();
+  var resultsList = (await utils.getResultsListFromStorage()).reverse();
 
   if (resultsList.length === 0) {
     archiveContent.text("No results found on this device. Play a game first!");
@@ -228,17 +228,4 @@ function getQuickInfoStringOfResults(results) {
   result += secondChainLinks[secondChainLinks.length - 1].data;
   result += ", etc.";
   return result;
-}
-
-function getResultsListFromStorage() {
-  var db = initArchiveDb();
-  return db.archive.toArray();
-}
-
-function initArchiveDb() {
-  var db = new Dexie("DrawphoneDatabase");
-  db.version(1).stores({
-    archive: "++id,date,chains"
-  });
-  return db;
 }

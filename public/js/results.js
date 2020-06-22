@@ -1,7 +1,6 @@
-import Dexie from "dexie";
-
 import Screen from "./screen";
 import * as constants from "./constants";
+import * as utils from "./utils";
 
 Results.prototype = Object.create(Screen.prototype);
 
@@ -74,7 +73,7 @@ Results.prototype.show = function(res, isArchivePage) {
   Screen.prototype.show.call(this);
 
   if (!isArchivePage && !res.data.isViewPreviousResults) {
-    addResultsToStorage(chains);
+    utils.addResultsToStorage(chains);
   }
 };
 
@@ -159,16 +158,3 @@ Results.prototype.displayOtherChainButtons = function(
     }
   }
 };
-
-function addResultsToStorage(chains) {
-  var db = initArchiveDb();
-  db.archive.add({ date: new Date(), chains });
-}
-
-function initArchiveDb() {
-  var db = new Dexie("DrawphoneDatabase");
-  db.version(1).stores({
-    archive: "++id,date,chains"
-  });
-  return db;
-}

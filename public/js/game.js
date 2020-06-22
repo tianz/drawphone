@@ -2,6 +2,7 @@ import "fabric";
 
 import Screen from "./screen";
 import * as constants from "./constants";
+import * as utils from "./utils";
 
 Game.prototype = Object.create(Screen.prototype);
 
@@ -83,7 +84,7 @@ Game.prototype.showDrawing = function(disallowChanges) {
 
   var shouldShowUndoButtons;
 
-  showElement("#game-drawing");
+  utils.showElement("#game-drawing");
   this.show();
 
   if (this.timeLimit > 0) {
@@ -113,7 +114,7 @@ Game.prototype.showDrawing = function(disallowChanges) {
 };
 
 Game.prototype.showWord = function() {
-  showElement("#game-word");
+  utils.showElement("#game-word");
   this.showButtons(false);
   this.show();
 };
@@ -125,22 +126,22 @@ Game.prototype.showWordPicker = function(wordChoices) {
     $(`#word-picker label:nth-child(${i + 1}) span`).text(wordChoices[i]);
     $(`#word-picker label:nth-child(${i + 1}) input`).val(wordChoices[i]);
   }
-  showElement("#word-picker-wrapper");
+  utils.showElement("#word-picker-wrapper");
   this.showButtons(false);
   this.show();
 };
 
 Game.prototype.showButtons = function(showClearButton) {
   if (showClearButton) {
-    showElement("#game-drawing-redo");
-    showElement("#game-drawing-undo");
+    utils.showElement("#game-drawing-redo");
+    utils.showElement("#game-drawing-undo");
     $("#game-drawing-redo").addClass("disabled");
     $("#game-drawing-undo").addClass("disabled");
   } else {
     $("#game-drawing-redo").addClass(constants.HIDDEN);
     $("#game-drawing-undo").addClass(constants.HIDDEN);
   }
-  showElement("#game-buttons");
+  utils.showElement("#game-buttons");
 };
 
 Game.prototype.hideBoth = function() {
@@ -215,8 +216,8 @@ Game.prototype.checkIfDone = function(newLinkType, lastLink) {
   var newLink;
   if (newLinkType === constants.DRAWING) {
     if (this.canvas.isBlank) {
-      showElement("#game-drawing");
-      showElement("#game-buttons");
+      utils.showElement("#game-drawing");
+      utils.showElement("#game-buttons");
       swal(
         "Your picture is blank!",
         "Please draw a picture, then try again.",
@@ -286,10 +287,6 @@ Game.prototype.setTimer = function() {
     window.setTimeout();
   }
 };
-
-function showElement(jq) {
-  $(jq).removeClass(constants.HIDDEN);
-}
 
 function getDrawingCanvas() {
   var thisCanvas = new fabric.Canvas("game-drawing-canvas");

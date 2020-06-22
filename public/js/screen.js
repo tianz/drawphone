@@ -1,4 +1,5 @@
 import * as constants from "./constants";
+import * as utils from "./utils";
 
 export default function Screen() {
   this.id = "";
@@ -13,7 +14,7 @@ Screen.prototype.initialize = function() {};
 
 Screen.prototype.show = function() {
   hideAll();
-  showElement(this.id);
+  utils.showElement(this.id);
 
   $("#title").html(this.title);
   $("#subtitle").text(this.subtitle);
@@ -56,8 +57,4 @@ function hideAll() {
   $("#result").addClass(constants.HIDDEN);
   $("#waiting").addClass(constants.HIDDEN);
   $("#replace").addClass(constants.HIDDEN);
-}
-
-function showElement(jq) {
-  $(jq).removeClass(constants.HIDDEN);
 }
