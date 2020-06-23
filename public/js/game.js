@@ -4,6 +4,10 @@ import Screen from "./screen";
 import * as constants from "./constants";
 import * as utils from "./utils";
 
+const PICKING = "picking";
+const DRAWING = "drawing";
+const GUESSING = "guessing";
+
 Game.prototype = Object.create(Screen.prototype);
 
 export default function Game(onWait, socket) {
@@ -15,18 +19,25 @@ export default function Game(onWait, socket) {
   this.wordInput = $("#game-word-in");
   this.timerDisplay = $("#game-timer");
 
+  // Buttons
+  this.undoButton = $("#game-drawing-undo");
+  this.redoButton = $("#game-drawing-redo");
+  this.changeButton = $("#game-change-words");
+  this.doneButton = $("#game-send");
+
   this.canvas;
 
   this.submitTimer;
 
   this.socket = socket;
 
+  this.words;
+
   window.addEventListener("resize", this.resizeCanvas.bind(this), false);
 }
 
 Game.prototype.initialize = function() {
   Screen.prototype.initialize.call(this);
-  var doneButton = $("#game-send");
 
   //bind clear canvas to clear drawing button
   var self = this;
@@ -52,8 +63,12 @@ Game.prototype.initialize = function() {
     self.canvas.isBlank = false;
   });
 
-  doneButton.click(function() {
+  self.doneButton.click(function() {
     self.onDone();
+  });
+
+  self.changeButton.click(function() {
+    self.onChangeWords();
   });
 
   //run done when enter key is pressed in word input
@@ -110,13 +125,32 @@ Game.prototype.showDrawing = function(disallowChanges) {
     shouldShowUndoButtons = false;
   }
 
-  this.showButtons(shouldShowUndoButtons);
+  this.showButtonsFor(DRAWING);
 };
 
 Game.prototype.showWord = function() {
   utils.showElement("#game-word");
-  this.showButtons(false);
+  this.showButtonsFor(GUESSING);
   this.show();
+};
+
+Game.prototype.showButtonsFor = function(phase) {
+  if (phase === PICKING) {
+    utils.hide(this.undoButton);
+    utils.hide(this.redoButton);
+    utils.show(this.changeButton);
+  } else if (phase === DRAWING) {
+    utils.show(this.undoButton);
+    utils.show(this.redoButton);
+    utils.hide(this.changeButton);
+  } else if (phase === GUESSING) {
+    utils.hide(this.undoButton);
+    utils.hide(this.redoButton);
+    utils.hide(this.changeButton);
+  } else {
+    console.error(`Unknown phase: ${phase}`);
+  }
+  utils.showElement("#game-buttons");
 };
 
 Game.prototype.showWordPicker = function(wordChoices) {
@@ -127,7 +161,7 @@ Game.prototype.showWordPicker = function(wordChoices) {
     $(`#word-picker label:nth-child(${i + 1}) input`).val(wordChoices[i]);
   }
   utils.showElement("#word-picker-wrapper");
-  this.showButtons(false);
+  this.showButtonsFor(PICKING);
   this.show();
 };
 
@@ -135,11 +169,11 @@ Game.prototype.showButtons = function(showClearButton) {
   if (showClearButton) {
     utils.showElement("#game-drawing-redo");
     utils.showElement("#game-drawing-undo");
-    $("#game-drawing-redo").addClass("disabled");
-    $("#game-drawing-undo").addClass("disabled");
+    this.undoButton.addClass("disabled");
+    this.redoButton.addClass("disabled");
   } else {
-    $("#game-drawing-redo").addClass(constants.HIDDEN);
-    $("#game-drawing-undo").addClass(constants.HIDDEN);
+    utils.hideElement("#game-drawing-redo");
+    utils.hideElement("#game-drawing-undo");
   }
   utils.showElement("#game-buttons");
 };
@@ -185,6 +219,7 @@ Game.prototype.newLink = function(res) {
     $("#game-word-drawingtoname").removeAttr("src");
     Screen.prototype.setTitle.call(this, "请选择一个词?");
 
+    this.words = lastLink.wordChoices;
     this.showWordPicker(lastLink.wordChoices);
   }
 
@@ -198,6 +233,17 @@ Game.prototype.newLink = function(res) {
   this.onDone = function() {
     this.checkIfDone(newLinkType, lastLink);
   };
+
+  this.onChangeWords = function() {
+    for (let i = 0; i < 4; i++) {
+      // set text and value of radio button
+      $(`#word-picker label:nth-child(${i + 1}) span`).text(this.words[i + 4]);
+      $(`#word-picker label:nth-child(${i + 1}) input`).val(this.words[i + 4]);
+    }
+    $(`#word-picker label.active`).removeClass("active");
+    utils.hide(this.changeButton);
+  };
+
   Screen.waitingForResponse = false;
 };
 

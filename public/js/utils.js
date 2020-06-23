@@ -2,8 +2,20 @@ import Dexie from "dexie";
 
 import * as constants from "./constants";
 
-export const showElement = function(selector) {
+export const showElement = selector => {
   $(selector).removeClass(constants.HIDDEN);
+};
+
+export const hideElement = selector => {
+  $(selector).addClass(constants.HIDDEN);
+};
+
+export const show = element => {
+  element.removeClass(constants.HIDDEN);
+};
+
+export const hide = element => {
+  element.addClass(constants.HIDDEN);
 };
 
 export const getResultsListFromStorage = function() {
