@@ -97,32 +97,18 @@ Game.prototype.showDrawing = function(disallowChanges) {
     this.canvas = getDrawingCanvas();
   }
 
-  var shouldShowUndoButtons;
-
   utils.showElement("#game-drawing");
   this.show();
 
   if (this.timeLimit > 0) {
     this.timerDisplay.text("Begin drawing to start the timer.");
-
-    if (this.timeLimit <= 5) {
-      //if the time limit is less than 5 seconds
-      //	don't show the undo button
-      //because players don't really have enough time to try drawing again
-      //	when they only have 5 seconds
-      shouldShowUndoButtons = false;
-    } else {
-      shouldShowUndoButtons = true;
-    }
   } else {
     this.timerDisplay.text("No time limit to draw.");
-    shouldShowUndoButtons = true;
   }
 
   if (disallowChanges) {
     //lock the canvas so the user can't make any changes
     $("#game-drawing").css("pointer-events", "none");
-    shouldShowUndoButtons = false;
   }
 
   this.showButtonsFor(DRAWING);
